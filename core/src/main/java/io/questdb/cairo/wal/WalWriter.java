@@ -1792,7 +1792,7 @@ public class WalWriter implements TableWriterAPI {
                 return symbolMapReader.valueOf(key);
             } else {
                 int keyIndex = symbols.get(key - symbolCountWatermark);
-                return symbolHashMap.keys()[keyIndex];
+                return symbolHashMap.getKey(keyIndex);
             }
         }
 
@@ -1807,7 +1807,7 @@ public class WalWriter implements TableWriterAPI {
             if (remapSize > 0) {
                 symbols.setPos(remapSize);
                 for (int i = 0, n = symbolHashMap.size(); i < n; i++) {
-                    CharSequence symbolValue = symbolHashMap.keys()[i];
+                    CharSequence symbolValue = symbolHashMap.getKey(i);
                     int index = symbolHashMap.get(symbolValue);
                     if (index >= symbolCountWatermark) {
                         symbols.extendAndSet(index - symbolCountWatermark, i);

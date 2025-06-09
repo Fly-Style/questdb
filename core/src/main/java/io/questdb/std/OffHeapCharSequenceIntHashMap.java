@@ -92,8 +92,26 @@ public class OffHeapCharSequenceIntHashMap extends AbstractCharSequenceHashSet i
         return valueAt(keyIndex(key));
     }
 
-    public CharSequence[] keys() {
-        return keys;
+
+    /**
+     * Accesses the key at the specified index with bounds check.
+     */
+    public CharSequence getKey(int index) {
+        if (index < keys.length) {
+            return keys[index];
+        }
+        throw new ArrayIndexOutOfBoundsException(index);
+    }
+
+    /**
+     * Accesses the key at the specified index without bounds check.
+     */
+    public CharSequence getKeyQuick(int index) {
+        if (index >= 0 && index < keyIndices.size()) {
+            int keyIndex = keyIndices.getQuick(index);
+            return keys[keyIndex];
+        }
+        return null;
     }
 
     public boolean put(@NotNull CharSequence key, int value) {

@@ -233,10 +233,9 @@ public class OffHeapCharSequenceIntHashMapTest {
         Assert.assertEquals(1, map.get("a"));
         Assert.assertEquals(2, map.get("bb"));
 
-        CharSequence[] keys = map.keys();
-        Assert.assertEquals(2, keys.length);
-        Assert.assertEquals("a", keys[0].toString());
-        Assert.assertEquals("bb", keys[1].toString());
+        Assert.assertEquals(2, map.size());
+        Assert.assertEquals("a", map.getKeyQuick(0).toString());
+        Assert.assertEquals("bb", map.getKeyQuick(1).toString());
     }
 
     @Test

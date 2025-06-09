@@ -45,10 +45,11 @@ public class Utf8StringIntHashMapBenchmark {
 
     private final DirectString utf16String = new DirectString();
     private final DirectUtf8String utf8String = new DirectUtf8String();
-    @Param({"256"})
+    @Param({"16"})
 //    @Param({"16", "256", "1024"})
     private int n;
-    @Param({"5", /*"7", "31", "63" */})
+    @Param({"7"})
+//    @Param({"5", "7", "31", "63"})
     private int prefixLength;
     private long[] utf16Addresses;
     private long[] utf16OffheapAddresses;
