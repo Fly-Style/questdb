@@ -37,11 +37,11 @@ import java.util.Arrays;
  */
 public class OffHeapCharSequenceIntHashMap extends AbstractCharSequenceHashSet implements Closeable {
     public static final int NO_ENTRY_VALUE = -1;
-    protected static final DirectUtf16Sink noEntryKey = null;
-    protected static final int noEntryValue = -1;
+    // Let's use a DirectUtf16Sink as the key type
+    private static final DirectUtf16Sink noEntryKey = null;
 
-    protected IntList keyIndices;
-    protected int[] values;
+    private final IntList keyIndices;
+    private int[] values;
 
     public OffHeapCharSequenceIntHashMap() {
         this(8);
@@ -92,17 +92,8 @@ public class OffHeapCharSequenceIntHashMap extends AbstractCharSequenceHashSet i
         return valueAt(keyIndex(key));
     }
 
-    /**
-     * Returns the list of keys.
-     * This list is a snapshot of the keys, which is copied
-     */
-    public ObjList<CharSequence> keys() {
-        ObjList<CharSequence> list = new ObjList<>(keyIndices.size());
-        for (int i = 0; i < keyIndices.size(); i++) {
-            int index = keyIndices.getQuick(i);
-            list.add(keys[index]);
-        }
-        return list;
+    public CharSequence[] keys() {
+        return keys;
     }
 
     public boolean put(@NotNull CharSequence key, int value) {

@@ -24,25 +24,19 @@
 
 package io.questdb.test.std;
 
-import io.questdb.std.OffHeapCharSequenceIntHashMap;
 import io.questdb.std.ObjList;
+import io.questdb.std.OffHeapCharSequenceIntHashMap;
 import io.questdb.std.Rnd;
 import io.questdb.std.str.DirectUtf16Sink;
 import io.questdb.std.str.StringSink;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class OffHeapCharSequenceIntHashMapTest {
     private OffHeapCharSequenceIntHashMap map;
 
     private DirectUtf16Sink sink;
-
-    @Before
-    public void setUp() {
-        map = new OffHeapCharSequenceIntHashMap();
-    }
 
     @After
     public void tearDown() {
@@ -76,6 +70,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testInitializationWithSmallCapacity() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Create a map with a small initial capacity
         map = new OffHeapCharSequenceIntHashMap(1);
 
@@ -95,6 +91,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testInitializationWithLargeCapacity() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Create a map with a large initial capacity
         map = new OffHeapCharSequenceIntHashMap(1000);
 
@@ -114,6 +112,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testGet() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Test getting values from an empty map
         Assert.assertEquals(OffHeapCharSequenceIntHashMap.NO_ENTRY_VALUE, map.get("nonexistent"));
 
@@ -138,6 +138,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testClear() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Test clearing an empty map
         map.clear();
         Assert.assertEquals(0, map.size());
@@ -160,6 +162,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testRemove() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Test removing from an empty map
         Assert.assertEquals(-1, map.remove("nonexistent"));
         Assert.assertEquals(0, map.size());
@@ -187,6 +191,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testPartialLookup() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         Rnd rnd = new Rnd();
         final int N = 1000;
 
@@ -212,6 +218,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testPutMutableCharSequence() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         StringSink ss = new StringSink();
         ss.put("a");
 
@@ -225,14 +233,16 @@ public class OffHeapCharSequenceIntHashMapTest {
         Assert.assertEquals(1, map.get("a"));
         Assert.assertEquals(2, map.get("bb"));
 
-        ObjList<CharSequence> keys = map.keys();
-        Assert.assertEquals(2, keys.size());
-        Assert.assertEquals("a", keys.get(0).toString());
-        Assert.assertEquals("bb", keys.get(1).toString());
+        CharSequence[] keys = map.keys();
+        Assert.assertEquals(2, keys.length);
+        Assert.assertEquals("a", keys[0].toString());
+        Assert.assertEquals("bb", keys[1].toString());
     }
 
     @Test
     public void testMemoryManagement() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Test that the map properly manages off-heap memory
         final int N = 10000;
         Rnd rnd = new Rnd();
@@ -271,6 +281,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testCloseAndRehash() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Test proper cleanup after close and behavior during rehashing
         try (OffHeapCharSequenceIntHashMap tempMap = new OffHeapCharSequenceIntHashMap(16, 0.5)) {
             // Fill the map to trigger rehashing
@@ -303,6 +315,8 @@ public class OffHeapCharSequenceIntHashMapTest {
 
     @Test
     public void testPut() {
+        map = new OffHeapCharSequenceIntHashMap();
+
         // Test putting a new key-value pair
         boolean result = map.put("key1", 100);
         Assert.assertTrue("Put should return true for a new key", result);
