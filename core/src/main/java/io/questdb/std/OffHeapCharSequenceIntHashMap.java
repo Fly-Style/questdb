@@ -38,6 +38,7 @@ import java.util.Arrays;
 public class OffHeapCharSequenceIntHashMap extends AbstractCharSequenceHashSet implements Closeable {
     public static final int NO_ENTRY_VALUE = -1;
     protected static final DirectUtf16Sink noEntryKey = null;
+    protected static final int noEntryValue = -1;
 
     protected IntList keyIndices;
     protected int[] values;
@@ -51,8 +52,11 @@ public class OffHeapCharSequenceIntHashMap extends AbstractCharSequenceHashSet i
     }
 
     public OffHeapCharSequenceIntHashMap(int initialCapacity, double loadFactor) {
-        super(initialCapacity, loadFactor);
+        this(initialCapacity, loadFactor, NO_ENTRY_VALUE);
+    }
 
+    public OffHeapCharSequenceIntHashMap(int initialCapacity, double loadFactor, int valueNotFound) {
+        super(initialCapacity, loadFactor);
         int len = Numbers.ceilPow2((int) (this.capacity / loadFactor));
 
         // Re-create keys with the specific type
@@ -62,7 +66,7 @@ public class OffHeapCharSequenceIntHashMap extends AbstractCharSequenceHashSet i
 
         // Initialize free variable
         Arrays.fill(keys, noEntryKey);
-        Arrays.fill(values, NO_ENTRY_VALUE);
+        Arrays.fill(values, valueNotFound);
         free = capacity;
     }
 
